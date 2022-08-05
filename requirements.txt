@@ -6,3 +6,4 @@ requests==2.27.1
 spacy==3.2.4
 st_annotated_text==3.0.0
 streamlit==1.11.1
+en_core_web_sm-3.1.0-py3-none-any.whl
