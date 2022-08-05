@@ -9,10 +9,11 @@ from utils.summarizer import Summarizer
 from utils.tts import NewsSpeech
 from utils.ner import NER
 import nltk
+nltk.download('punkt')
+
 
 @st.cache(show_spinner=True, allow_output_mutation=True)
 def load_model():
-    nltk.download('punkt')
     k_model = KeyBERT(model="key_ext")
     return k_model
 
