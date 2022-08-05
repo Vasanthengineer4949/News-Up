@@ -11,3 +11,7 @@ Here I provide the project link:
 * Keyword Extrtaction for Identification of Tags
 * NER for highlighting important words
 * Text to Speech to Convert News into Audio file
+
+## Credits
+Developed by **Vasanth P**
+[LinkedIn](https://www.linkedin.com/in/vasanthengineer4949/)
