@@ -26,7 +26,7 @@ def news_card(credits, headline, url_to_news, url_to_image, publish_date, publis
             st.text(credits)
             st.text(publish_date + " " + publish_time)
             try:
-                st.image(url_to_image, width=600)
+                st.image(url_to_image, width=600, use_column_width=True)
             except:
                 pass
             news_article = NewsContent(url_to_news)
@@ -35,7 +35,7 @@ def news_card(credits, headline, url_to_news, url_to_image, publish_date, publis
                                     keyphrase_ngram_range=(1, 1), 
                                     stop_words='english', 
                                     highlight=False,
-                                    top_n=5)
+                                    top_n=4)
             keywords = [keyword[0] for keyword in keywords]
             # Five best #colorkey for white background
             
@@ -43,8 +43,7 @@ def news_card(credits, headline, url_to_news, url_to_image, publish_date, publis
             b = annotation(keywords[1], "2", color="#faafff")
             c = annotation(keywords[2], "3", color="#afafff")
             d = annotation(keywords[3], "4", color="#feafff")
-            e = annotation(keywords[4], "5", color="#8effff")
-            annotated_text("Tags: ", a, b, c, d, e)
+            annotated_text("Tags: ", a, b, c, d)
             summarizer = Summarizer(news_content)
             summary = summarizer.get_summary()
             st.markdown(" ")
