@@ -10,6 +10,7 @@ from utils.tts import NewsSpeech
 from utils.ner import NER
 import nltk
 nltk.download('punkt')
+nltk.download('stopwords')
 
 
 @st.cache(show_spinner=True, allow_output_mutation=True)
