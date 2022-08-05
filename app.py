@@ -18,7 +18,6 @@ def load_model():
     k_model = KeyBERT(model="key_ext")
     return k_model
 
-@st.cache(show_spinner=True, allow_output_mutation=True)
 def news_card(credits, headline, url_to_news, url_to_image, publish_date, publish_time, content, news_num, model):
     k_model = model
     if content is not None:
@@ -39,12 +38,11 @@ def news_card(credits, headline, url_to_news, url_to_image, publish_date, publis
                                     top_n=4)
             keywords = [keyword[0] for keyword in keywords]
             # Five best #colorkey for white background
-            
-            a = annotation(keywords[0], "1", color="#f5f5f5")
-            b = annotation(keywords[1], "2", color="#faafff")
-            c = annotation(keywords[2], "3", color="#afafff")
-            d = annotation(keywords[3], "4", color="#feafff")
-            annotated_text("Tags: ", a, b, c, d)
+            annotated_text("Tags: ", 
+                                    annotation(keywords[0], "1", color="#f5f5f5"), 
+                                    annotation(keywords[1], "2", color="#faafff"), 
+                                    annotation(keywords[2], "3", color="#afafff"), 
+                                    annotation(keywords[3], "4", color="#feafff"))
             summarizer = Summarizer(news_content)
             summary = summarizer.get_summary()
             st.markdown(" ")
@@ -59,11 +57,9 @@ def news_card(credits, headline, url_to_news, url_to_image, publish_date, publis
             aud.save(f"tts{news_num}.mp3")
             st.audio(f"tts{news_num}.mp3", format="audio/mp3")
             os.remove(f"tts{news_num}.mp3")
-            # st.write(summary)
             st.markdown("[Read More](" + url_to_news + ")")
 
-@st.cache(show_spinner=True, allow_output_mutation=True)
-def news_render(news, num):
+def news_render(news, num, model):
     credits = news["source"]["name"]
     headline = news["title"]
     url_to_news = news["url"]
@@ -72,12 +68,13 @@ def news_render(news, num):
     publish_time = news["publishedAt"][12:20]
     content = news["content"]
     news_number = num
-    st.spinner("Model Loading")
-    model = load_model()
-    news_card(credits, headline, url_to_news, url_to_image, publish_date, publish_time, content, news_number, model)
+    key_model = model
+    news_card(credits, headline, url_to_news, url_to_image, publish_date, publish_time, content, news_number, key_model)
 
 if __name__ == "__main__":
     st.title("News Up")
+    st.spinner("Model Loading")
+    model = load_model()
     st.sidebar.title("News Up")
     st.sidebar.markdown("This News Up is an application that takes trending news from the web and provides you with a summary of the news." + 
     "Along with the news, it also provides you with a list of keywords that are associated with the news." +
@@ -88,7 +85,7 @@ if __name__ == "__main__":
     news = NewsData()
     for i in range(10):
         news_data = news["articles"][i]
-        news_render(news_data, i)
+        news_render(news_data, i, model)
         
     
 
