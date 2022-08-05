@@ -7,7 +7,8 @@ class NER():
         self.text = text
 
     def load_model(self):
-        ner_model = spacy.load("en_core_web_sm")
+        import en_core_web_sm
+        ner_model = en_core_web_sm.load()
         return ner_model
     
     def form_doc(self):
