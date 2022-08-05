@@ -15,7 +15,7 @@ nltk.download('stopwords')
 
 @st.cache(show_spinner=True, allow_output_mutation=True)
 def load_model():
-    k_model = KeyBERT(model="key_ext")
+    k_model = KeyBERT(model="key_ext_small")
     return k_model
 
 def news_card(credits, headline, url_to_news, url_to_image, publish_date, publish_time, content, news_num, model):
@@ -52,11 +52,11 @@ def news_card(credits, headline, url_to_news, url_to_image, publish_date, publis
             for entity in entities:
                 summary_out = summary_out.replace(entity.text, "<b>" + entity.text + "</b>")
             st.markdown(summary_out, unsafe_allow_html=True)
-            tts = NewsSpeech(summary)
-            aud = tts.speak()
-            aud.save(f"tts{news_num}.mp3")
-            st.audio(f"tts{news_num}.mp3", format="audio/mp3")
-            os.remove(f"tts{news_num}.mp3")
+            # tts = NewsSpeech(summary)
+            # aud = tts.speak()
+            # aud.save(f"tts{news_num}.mp3")
+            # st.audio(f"tts{news_num}.mp3", format="audio/mp3")
+            # os.remove(f"tts{news_num}.mp3")
             st.markdown("[Read More](" + url_to_news + ")")
 
 
@@ -73,6 +73,8 @@ def news_render(news, num, model):
     news_card(credits, headline, url_to_news, url_to_image, publish_date, publish_time, content, news_number, key_model)
 
 if __name__ == "__main__":
+    import time
+    start_time = time.time()
     st.title("News Up")
     st.spinner("Model Loading")
     model = load_model()
@@ -87,6 +89,5 @@ if __name__ == "__main__":
     for i in range(10):
         news_data = news["articles"][i]
         news_render(news_data, i, model)
-        
     
 
