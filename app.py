@@ -18,7 +18,8 @@ def load_model():
     k_model = KeyBERT(model="key_ext")
     return k_model
 
-def news_card(credits, headline, url_to_news, url_to_image, publish_date, publish_time, content, news_num):
+def news_card(credits, headline, url_to_news, url_to_image, publish_date, publish_time, content, news_num, model):
+    k_model = model
     if content is not None:
         with st.container():
             st.subheader(headline)
@@ -28,7 +29,6 @@ def news_card(credits, headline, url_to_news, url_to_image, publish_date, publis
                 st.image(url_to_image, width=600)
             except:
                 pass
-            k_model = load_model()
             news_article = NewsContent(url_to_news)
             news_content = news_article.get_news_content()
             keywords = k_model.extract_keywords(news_content,
@@ -71,7 +71,9 @@ def news_render(news, num):
     publish_time = news["publishedAt"][12:20]
     content = news["content"]
     news_number = num
-    news_card(credits, headline, url_to_news, url_to_image, publish_date, publish_time, content, news_number)
+    st.spinner("Model Loading")
+    model = load_model()
+    news_card(credits, headline, url_to_news, url_to_image, publish_date, publish_time, content, news_number, model)
 
 if __name__ == "__main__":
     st.title("News Up")
