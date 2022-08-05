@@ -1,7 +1,7 @@
 gTTS==2.2.4
 keybert==0.6.0
 newspaper==0.1.0.7
-newspaper3k==0.2.8
+newspaper3k
 nltk==3.7
 requests==2.27.1
 spacy==3.2.4
