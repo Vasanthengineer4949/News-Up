@@ -8,9 +8,11 @@ from annotated_text import annotation
 from utils.summarizer import Summarizer
 from utils.tts import NewsSpeech
 from utils.ner import NER
+import nltk
 
 @st.cache(show_spinner=True, allow_output_mutation=True)
 def load_model():
+    nltk.download('punkt')
     k_model = KeyBERT(model="key_ext")
     return k_model
 
@@ -24,9 +26,9 @@ def news_card(credits, headline, url_to_news, url_to_image, publish_date, publis
                 st.image(url_to_image, width=600)
             except:
                 pass
+            k_model = load_model()
             news_article = NewsContent(url_to_news)
             news_content = news_article.get_news_content()
-            k_model = load_model()
             keywords = k_model.extract_keywords(news_content,
                                     keyphrase_ngram_range=(1, 1), 
                                     stop_words='english', 
