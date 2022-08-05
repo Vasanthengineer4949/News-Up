@@ -18,6 +18,7 @@ def load_model():
     k_model = KeyBERT(model="key_ext")
     return k_model
 
+@st.cache(show_spinner=True, allow_output_mutation=True)
 def news_card(credits, headline, url_to_news, url_to_image, publish_date, publish_time, content, news_num, model):
     k_model = model
     if content is not None:
@@ -61,6 +62,7 @@ def news_card(credits, headline, url_to_news, url_to_image, publish_date, publis
             # st.write(summary)
             st.markdown("[Read More](" + url_to_news + ")")
 
+@st.cache(show_spinner=True, allow_output_mutation=True)
 def news_render(news, num):
     credits = news["source"]["name"]
     headline = news["title"]
